@@ -10,10 +10,19 @@ def main():
     try:
         # Habilitar comunicação
         com1.enable()
+        
+        time.sleep(.2)
+        print('Cliente: Enviando byte de sacrifício')
+        com1.sendData(b'00')
+        print('Cliente: Byte de sacrifício enviado')
+        time.sleep(1)
+        
+        
         print("Cliente: Comunicação habilitada")
 
         # Números a serem enviados (exemplo com números hard coded)
-        numbers = [45.450000, -1.435670, 1.23e23, -3.14, 0.000123]
+        numbers = [45.450000, -1.435670, 1.23e2, -3.14, 0.000123]
+        # numbers = [1,2,3,4,5]
         print("Cliente: Números a serem enviados:", numbers)
 
         # Enviar cada número em formato IEEE-754
@@ -21,6 +30,7 @@ def main():
             binary_representation = struct.pack('f', number)
             com1.sendData(binary_representation)
             print(f'Cliente: Enviado {number}')
+            time.sleep(.1)
 
         # Aguardar a resposta do servidor
         timeout = 5
