@@ -2,13 +2,17 @@ import struct
 from enlace import *
 
 # Configurar a porta serial
-serialName = "/dev/tty.usbmodem1101"  # Altere para a porta correta
+serialName = "COM3"  # Altere para a porta correta
 com2 = enlace(serialName)
 
 def main():
     try:
         # Habilitar comunicação
         com2.enable()
+        print(f'Esperando primeiro byte.')
+        rxBuffer, nRx = com2.getData(1)
+        com2.rx.clearBuffer()
+        time.sleep(.1)
         print("Servidor: Comunicação habilitada")
 
         print("Servidor: Aguardando números...")
@@ -17,11 +21,13 @@ def main():
         while True:
             # Tenta receber 4 bytes (um float 32 bits)
             rxBuffer, nRx = com2.getData(4)
-            if nRx < 4:
-                break  # Se menos de 4 bytes foram recebidos, a transmissão acabou
+            print(len(numbers))
             number = struct.unpack('f', rxBuffer)[0]
             print(f'Servidor: Recebido {number}')
             numbers.append(number)
+            if len(numbers) > 4:
+                break  # Se menos de 4 bytes foram recebidos, a transmissão acabou
+        print('saiu do while')
 
         # Calcular a soma dos números recebidos
         total_sum = sum(numbers)
