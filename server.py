@@ -2,7 +2,7 @@ import struct
 from enlace import *
 
 # Configurar a porta serial
-serialName = "COM3"  # Altere para a porta correta
+serialName = "COM5"  # Altere para a porta correta
 com2 = enlace(serialName)
 
 def main():
@@ -31,6 +31,7 @@ def main():
 
         # Calcular a soma dos números recebidos
         total_sum = sum(numbers)
+        # total_sum = sum(numbers) + 100 # Simulando erro
         print(f'Servidor: Soma calculada: {total_sum}')
 
         # Converter a soma para formato IEEE-754 e enviar de volta ao cliente
